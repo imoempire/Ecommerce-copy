@@ -23,22 +23,32 @@ export const Reducer = createSlice({
       // Get the payload (product object)
       const product = payload;
 
-      // Check if the product is already in the wishlist
+      // Check if the product is already in the product array
       const productIndex = state.product.findIndex(
         (item) => item.id === product.id
       );
 
-      // Check if the product is already in the wishlist
-      const wishlistIndex = state.wishlist.findIndex(
-        (item) => item.id === product.id
-      );
+      if (productIndex !== -1) {
+        // If the product is in the product array, toggle the 'inWishlist' property
+        state.product[productIndex].inWishlist =
+          !state.product[productIndex].inWishlist;
 
-      if (wishlistIndex !== -1) {
-        // If the product is in the wishlist, remove it
-        state.wishlist.splice(wishlistIndex, 1);
-      } else {
-        // If the product is not in the wishlist, add it
-        state.wishlist.push(product);
+        // Check if the product is already in the wishlist
+        const wishlistIndex = state.wishlist.findIndex(
+          (item) => item.id === product.id
+        );
+
+        if (state.product[productIndex].inWishlist) {
+          // If the product is in the wishlist, remove it
+          if (wishlistIndex !== -1) {
+            state.wishlist.splice(wishlistIndex, 1);
+          }
+        } else {
+          // If the product is not in the wishlist, add it
+          if (wishlistIndex === -1) {
+            state.wishlist.push(product);
+          }
+        }
       }
     },
   },

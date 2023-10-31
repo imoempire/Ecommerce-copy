@@ -77,6 +77,7 @@ const Home = () => {
 
   const renderItemProduct = ({ item }) => {
     let isFav = item?.inWishlist;
+    // console.log(isFav, item?.title, "====", item, "======");
     return (
       <View style={styles.container}>
         <Pressable
