@@ -81,7 +81,7 @@ const Cart_screen = () => {
                         fontWeight: "500",
                       }}
                     >
-                      product name
+                      {item?.title}
                     </Text>
                     <Text
                       style={{
@@ -90,7 +90,7 @@ const Cart_screen = () => {
                         fontWeight: "400",
                       }}
                     >
-                      $400
+                      ${item?.price}
                     </Text>
                   </View>
 
