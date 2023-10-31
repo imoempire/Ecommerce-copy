@@ -40,13 +40,13 @@ export const Reducer = createSlice({
 
         if (state.product[productIndex].inWishlist) {
           // If the product is in the wishlist, remove it
-          if (wishlistIndex !== -1) {
-            state.wishlist.splice(wishlistIndex, 1);
+          if (wishlistIndex === -1) {
+            state.wishlist.push(product);
           }
         } else {
           // If the product is not in the wishlist, add it
-          if (wishlistIndex === -1) {
-            state.wishlist.push(product);
+          if (wishlistIndex !== -1) {
+            state.wishlist.splice(wishlistIndex, 1);
           }
         }
       }

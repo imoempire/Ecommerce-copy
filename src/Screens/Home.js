@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   header: {
-    flex: 0.4,
+    flex: 0.5,
     // height: 60,
     backgroundColor: Colors.theme_color,
     justifyContent: "space-between",
