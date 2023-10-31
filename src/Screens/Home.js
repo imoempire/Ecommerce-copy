@@ -21,6 +21,8 @@ import axios from "axios";
 // import { addToCart, removeFromCart } from "../redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, addWishlist, allProduct, restDat } from "../redux/reducer";
+import SearchBox from "../Components/SearchBox";
+import { LocationTime, Recommended } from "../Components/Components";
 
 // create a component
 const Home = () => {
@@ -72,8 +74,6 @@ const Home = () => {
   const { product, cart, wishlist } = useSelector((state) => state.reducer);
   const inCart = cart?.length;
   const inWishList = wishlist?.length;
-
-  // console.log(cart, wishlist, product?.length);
 
   const renderItemProduct = ({ item }) => {
     let isFav = item?.inWishlist;
@@ -143,69 +143,99 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: "#FFFFFF", height: "100%", width: "100%" }}
+    <View
+      style={{
+        backgroundColor: "#FFFFFF",
+        height: "100%",
+        width: "100%",
+        top: -50,
+      }}
     >
       <StatusBar backgroundColor={Colors.theme_color} />
       <View style={styles.header}>
-        <View
-          style={{
-            width: "50%",
-            // backgroundColor:'red'
-          }}
-        >
-          <Text
+        <View style={{ flexDirection: "row" }}>
+          <View
             style={{
-              fontSize: 14,
-              color: Colors.white,
-              fontWeight: "bold",
-              marginTop: 3,
+              width: "50%",
+              height: 40,
+              justifyContent: "center",
             }}
           >
-            Hey,Yajash
-          </Text>
-        </View>
-        <View
-          style={{
-            width: "50%",
-            flexDirection: "row",
-            // backgroundColor:'green',
-            justifyContent: "flex-end",
-          }}
-        >
-          <TouchableOpacity
-            style={{ flexDirection: "row" }}
-            onPress={() => navigation.navigate("Wishlist")}
+            <Text
+              style={{
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: "bold",
+                marginTop: 3,
+              }}
+            >
+              Hey,Yajash
+            </Text>
+          </View>
+          <View
+            style={{
+              width: "50%",
+              flexDirection: "row",
+              //   backgroundColor: "green",
+              justifyContent: "flex-end",
+            }}
           >
-            <AntDesign name="hearto" size={22} color={Colors.white} />
-            <Badge style={{ top: -10, left: -5 }} size={20}>
-              {inWishList}
-            </Badge>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ flexDirection: "row", marginHorizontal: 10 }}
-            onPress={() => navigation.navigate("Cart_screen")}
-          >
-            {/* <Image
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 40,
+                marginHorizontal: 10,
+              }}
+              onPress={() => navigation.navigate("Wishlist")}
+            >
+              <AntDesign name="hearto" size={22} color={Colors.white} />
+              <Badge style={{ top: -18, left: -5 }} size={20}>
+                {inWishList}
+              </Badge>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 40,
+                // backgroundColor: "red",
+                justifyContent: "flex-end",
+              }}
+              onPress={() => navigation.navigate("Cart_screen")}
+            >
+              {/* <Image
               source={image.cart}
               resizeMode="contain"
               style={styles.image}
             /> */}
-            <SimpleLineIcons name="handbag" size={22} color={Colors.white} />
-            <Badge style={{ top: -10, left: -5 }} size={20}>
-              {inCart}
-            </Badge>
-          </TouchableOpacity>
+              <SimpleLineIcons name="handbag" size={22} color={Colors.white} />
+              <Badge style={{ top: -18, left: -7 }} size={20}>
+                {inCart}
+              </Badge>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <SearchBox />
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <LocationTime title={"Green way 3000, Sylhet"} />
+          <LocationTime title={"1hour"} />
         </View>
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
+        <View style={{ marginVertical: 20 }}>
+          <Recommended />
+        </View>
+        <Text style={{ fontSize: 25, marginHorizontal: 10 }}>Recommended</Text>
         <FlatList
           data={product}
           style={{
-            marginVertical: 10,
+            // marginVertical: 10,
             flexDirection: "row",
             flexWrap: "wrap",
-            marginBottom: 100,
+            paddingBottom: 100,
           }}
           keyExtractor={(item, index) => index}
           renderItem={renderItemProduct}
@@ -225,7 +255,7 @@ const Home = () => {
           size="large"
         />
       ) : null}
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -238,13 +268,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   header: {
-    height: 60,
+    flex: 0.4,
+    // height: 60,
     backgroundColor: Colors.theme_color,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
+    justifyContent: "space-between",
+    marginTop: 50,
     padding: 10,
-    flexDirection: "row",
+    // flexDirection: "row",
+    paddingTop: 60,
+  },
+  headerText: {
+    color: Colors.white,
   },
   image: {
     height: 20,
