@@ -28,6 +28,22 @@ export const Reducer = createSlice({
         state.cart.push(payload);
       }
     },
+    increaseQuantity: (state, { payload }) => {
+      const productToIncrease = state.cart.find(
+        (product) => product.id === payload.id
+      );
+      if (productToIncrease) {
+        productToIncrease.quantity += 1;
+      }
+    },
+    decreaseQuantity: (state, { payload }) => {
+      const productToDecrease = state.cart.find(
+        (product) => product.id === payload.id
+      );
+      if (productToDecrease && productToDecrease.quantity > 1) {
+        productToDecrease.quantity -= 1;
+      }
+    },
     restDat: (state, { payload }) => {
       return initialState;
     },
@@ -67,7 +83,14 @@ export const Reducer = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, addWishlist, allProduct, restDat } = Reducer.actions;
+export const {
+  addToCart,
+  addWishlist,
+  allProduct,
+  restDat,
+  increaseQuantity,
+  decreaseQuantity,
+} = Reducer.actions;
 
 export default Reducer.reducer;
 

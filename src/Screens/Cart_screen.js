@@ -14,11 +14,19 @@ import Header from "../Components/Header";
 import Colors from "../Utils/Colors";
 import image from "../Utils/Image";
 import { AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { decreaseQuantity, increaseQuantity } from "../redux/reducer";
 // create a component
 const Cart_screen = () => {
   const [isLoading, setisLoading] = useState(false);
   const { cart } = useSelector((state) => state.reducer);
+  const dispatch = useDispatch();
+  const handleIncrase = (item) => {
+    dispatch(increaseQuantity(item));
+  };
+  const handleDecrase = (item) => {
+    dispatch(decreaseQuantity(item));
+  };
   return (
     <SafeAreaView style={{ backgroundColor: "#FFFFFF", height: "100%" }}>
       <Header headername={"Shopping Cart"} />
@@ -33,7 +41,6 @@ const Cart_screen = () => {
             }}
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => {
-              console.log(item, 'hhs');
               return (
                 <View
                   style={{
@@ -99,9 +106,7 @@ const Cart_screen = () => {
                       padding: 10,
                     }}
                   >
-                    <TouchableOpacity
-                    // onPress={() => navigation.navigate('Wishlist')}
-                    >
+                    <TouchableOpacity onPress={() => handleIncrase(item)}>
                       <AntDesign
                         name="pluscircleo"
                         size={30}
@@ -118,9 +123,7 @@ const Cart_screen = () => {
                     >
                       {item?.quantity}
                     </Text>
-                    <TouchableOpacity
-                    // onPress={() => navigation.navigate('Wishlist')}
-                    >
+                    <TouchableOpacity onPress={() => handleDecrase(item)}>
                       <AntDesign
                         name="minuscircleo"
                         size={30}
