@@ -14,7 +14,19 @@ export const Reducer = createSlice({
       state.product = payload;
     },
     addToCart: (state, { payload }) => {
-      state.cart.push(payload);
+      // Find the product in the cart, if it already exists
+      const existingProduct = state.cart.find(
+        (product) => product.id === payload.id
+      );
+
+      if (existingProduct) {
+        // If the product exists, increase the quantity
+        existingProduct.quantity += 1;
+      } else {
+        // If the product doesn't exist in the cart, add it with quantity 1
+
+        state.cart.push(payload);
+      }
     },
     restDat: (state, { payload }) => {
       return initialState;

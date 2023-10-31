@@ -50,7 +50,11 @@ const Home = () => {
   //   const Productitem = productData;
 
   const HandleAddCart = (product) => {
-    dispatch(addToCart(product));
+    let object = {
+      ...product,
+      quantity: 1,
+    };
+    dispatch(addToCart(object));
   };
 
   const HandleAddWishList = (product) => {
