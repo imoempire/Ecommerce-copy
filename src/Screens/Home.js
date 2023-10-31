@@ -32,6 +32,7 @@ const Home = () => {
   const [isAdded, setIAdded] = useState(false);
   const [productData, setProductData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
+
   useEffect(() => {
     // dispatch(restDat());
     setisLoading(true);
@@ -40,7 +41,7 @@ const Home = () => {
       .then((res) => {
         let data = res.data?.products;
         setProductData(data);
-        dispatch(allProduct(data));
+        // dispatch(allProduct(data));
       })
       .catch((err) => console.log(err));
     setisLoading(false);
@@ -74,6 +75,18 @@ const Home = () => {
   const { product, cart, wishlist } = useSelector((state) => state.reducer);
   const inCart = cart?.length;
   const inWishList = wishlist?.length;
+
+  useEffect(() => {
+    const updateProductsWithWishlist = () => {
+      const updatedProducts = productData.map((product) => ({
+        ...product,
+        inWishlist: wishlist.some((item) => item.id === product.id),
+      }));
+
+      dispatch(allProduct(updatedProducts));
+    };
+    updateProductsWithWishlist();
+  }, [productData]);
 
   const renderItemProduct = ({ item }) => {
     let isFav = item?.inWishlist;
@@ -269,7 +282,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   header: {
-    flex: 0.5,
+    flex: 0.7,
     // height: 60,
     backgroundColor: Colors.theme_color,
     justifyContent: "space-between",
