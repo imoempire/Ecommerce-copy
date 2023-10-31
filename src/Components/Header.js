@@ -10,6 +10,7 @@ import Common_Styles from "./Common_Styles";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../Utils/Colors";
 import { StatusBar } from "expo-status-bar";
+
 const Header = (props) => {
   const navigation = useNavigation();
 
