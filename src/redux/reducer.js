@@ -40,8 +40,14 @@ export const Reducer = createSlice({
       const productToDecrease = state.cart.find(
         (product) => product.id === payload.id
       );
-      if (productToDecrease && productToDecrease.quantity > 1) {
-        productToDecrease.quantity -= 1;
+      if (productToDecrease) {
+        if (productToDecrease.quantity > 1) {
+          productToDecrease.quantity -= 1;
+        } else {
+          state.cart = state.cart.filter(
+            (product) => product.id !== payload.id
+          );
+        }
       }
     },
     restDat: (state, { payload }) => {

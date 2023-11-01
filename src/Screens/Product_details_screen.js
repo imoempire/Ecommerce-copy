@@ -15,7 +15,6 @@ import { ImageSlider } from "react-native-image-slider-banner";
 import Colors from "../Utils/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { addToCart, removeFromCart } from "../redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { addWishlist } from "../redux/reducer";
 // create a component
@@ -53,12 +52,12 @@ const Product_details_screen = ({ route }) => {
 
   const item = productData;
   const HandleAddCart = () => {
-    dispatch(addToCart(item));
+    // dispatch(addToCart(item));
   };
 
   const handleRemoveCart = (item) => {
-    // console.warn(item)
-    dispatch(removeFromCart(item.title)); // we can use id to remove bulk data
+    console.warn(item)
+    // dispatch(removeFromCart(item.title)); // we can use id to remove bulk data
   };
 
   const HandleAddWishList = () => {
