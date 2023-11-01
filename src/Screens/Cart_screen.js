@@ -53,7 +53,7 @@ const Cart_screen = () => {
 
   const handleDecrase = (item) => {
     if (item.quantity === 1) {
-      return showConfirmDialog();
+      return showConfirmDialog(item);
     }
     dispatch(decreaseQuantity(item));
   };
@@ -76,121 +76,123 @@ const Cart_screen = () => {
     <SafeAreaView style={{ backgroundColor: "#FFFFFF", height: "100%" }}>
       <Header headername={"Shopping Cart"} />
       <View style={styles.container}>
-        {cart?.length > 0 ? (
-          <FlatList
-            data={cart}
-            style={{
-              // flexDirection: "row",
-              flexWrap: "wrap",
-              paddingBottom: 100,
-            }}
-            keyExtractor={(item, index) => index}
-            renderItem={({ item }) => {
-              return (
-                <View
-                  style={{
-                    height: 72,
-                    justifyContent: "space-between",
-                    width: "100%",
-                    // borderWidth: 1,
-                    flexDirection: "row",
-                    borderBottomColor: "#EBEBFB",
-                    borderBottomWidth: 0.5,
-                  }}
-                >
+        <>
+          {cart?.length > 0 ? (
+            <FlatList
+              data={cart}
+              style={{
+                // flexDirection: "row",
+                flexWrap: "wrap",
+                paddingBottom: 100,
+              }}
+              keyExtractor={(item, index) => index}
+              renderItem={({ item }) => {
+                return (
                   <View
                     style={{
-                      width: "10%",
-                      justifyContent: "center",
-                      // backgroundColor:'red'
-                    }}
-                  >
-                    <Image
-                      source={image.defaultImage}
-                      resizeMode="contain"
-                      style={styles.image}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      width: "50%",
-                      justifyContent: "center",
-                      marginLeft: 20,
-                      // backgroundColor:'yellow'
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: Colors.grey_text,
-                        fontSize: 14,
-                        fontWeight: "500",
-                      }}
-                    >
-                      {item?.title}
-                    </Text>
-                    <Text
-                      style={{
-                        color: Colors.grey_text,
-                        fontSize: 14,
-                        fontWeight: "400",
-                      }}
-                    >
-                      ${item?.price}
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      width: "35%",
-                      // marginHorizontal:10,
-                      flexDirection: "row",
+                      height: 72,
                       justifyContent: "space-between",
-                      alignSelf: "center",
-
-                      // backgroundColor:'yellow',
-                      padding: 10,
+                      width: "100%",
+                      // borderWidth: 1,
+                      flexDirection: "row",
+                      borderBottomColor: "#EBEBFB",
+                      borderBottomWidth: 0.5,
                     }}
                   >
-                    <TouchableOpacity onPress={() => handleIncrase(item)}>
-                      <AntDesign
-                        name="pluscircleo"
-                        size={30}
-                        color={Colors.black}
-                      />
-                    </TouchableOpacity>
-                    <Text
+                    <View
                       style={{
-                        fontWeight: "500",
-                        fontSize: 16,
-                        color: Colors.grey_text,
-                        marginTop: 5,
+                        width: "10%",
+                        justifyContent: "center",
+                        // backgroundColor:'red'
                       }}
                     >
-                      {item?.quantity}
-                    </Text>
-                    <TouchableOpacity onPress={() => handleDecrase(item)}>
-                      <AntDesign
-                        name="minuscircleo"
-                        size={30}
-                        color={Colors.black}
+                      <Image
+                        source={image.defaultImage}
+                        resizeMode="contain"
+                        style={styles.image}
                       />
-                    </TouchableOpacity>
+                    </View>
+                    <View
+                      style={{
+                        width: "50%",
+                        justifyContent: "center",
+                        marginLeft: 20,
+                        // backgroundColor:'yellow'
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: Colors.grey_text,
+                          fontSize: 14,
+                          fontWeight: "500",
+                        }}
+                      >
+                        {item?.title}
+                      </Text>
+                      <Text
+                        style={{
+                          color: Colors.grey_text,
+                          fontSize: 14,
+                          fontWeight: "400",
+                        }}
+                      >
+                        ${item?.price}
+                      </Text>
+                    </View>
+
+                    <View
+                      style={{
+                        width: "35%",
+                        // marginHorizontal:10,
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignSelf: "center",
+
+                        // backgroundColor:'yellow',
+                        padding: 10,
+                      }}
+                    >
+                      <TouchableOpacity onPress={() => handleIncrase(item)}>
+                        <AntDesign
+                          name="pluscircleo"
+                          size={30}
+                          color={Colors.black}
+                        />
+                      </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontWeight: "500",
+                          fontSize: 16,
+                          color: Colors.grey_text,
+                          marginTop: 5,
+                        }}
+                      >
+                        {item?.quantity}
+                      </Text>
+                      <TouchableOpacity onPress={() => handleDecrase(item)}>
+                        <AntDesign
+                          name="minuscircleo"
+                          size={30}
+                          color={Colors.black}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              );
-            }}
-          />
-        ) : (
-          <View
-            style={{
-              height: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text>No Item Found</Text>
-          </View>
-        )}
+                );
+              }}
+            />
+          ) : (
+            <View
+              style={{
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text>No Item Found</Text>
+            </View>
+          )}
+        </>
 
         <View style={styles.bottom_view}>
           <View style={styles.bottom_txt_view}>
@@ -235,8 +237,8 @@ const Cart_screen = () => {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    justifyContent: "center",
+    flex: 1,
+    justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
     marginHorizontal: 10,
