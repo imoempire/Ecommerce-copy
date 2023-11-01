@@ -16,17 +16,38 @@ import image from "../Utils/Image";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { decreaseQuantity, increaseQuantity } from "../redux/reducer";
+import Common_Styles from "../Components/Common_Styles";
 // create a component
 const Cart_screen = () => {
+  const [subTotal, setSubTotalPrice] = useState(0);
+  const [Total, setTotalPrice] = useState(0);
+  const [Delivery, setDelivery] = useState(20);
   const [isLoading, setisLoading] = useState(false);
+  
   const { cart } = useSelector((state) => state.reducer);
   const dispatch = useDispatch();
+
   const handleIncrase = (item) => {
     dispatch(increaseQuantity(item));
   };
   const handleDecrase = (item) => {
     dispatch(decreaseQuantity(item));
   };
+
+  useEffect(() => {
+    const calculatedTotalPrice = cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+
+    setSubTotalPrice(calculatedTotalPrice);
+  }, [cart]);
+
+  useEffect(() => {
+    const TotalPrice = subTotal + Delivery;
+    setTotalPrice(TotalPrice);
+  }, [subTotal, cart]);
+
   return (
     <SafeAreaView style={{ backgroundColor: "#FFFFFF", height: "100%" }}>
       <Header headername={"Shopping Cart"} />
@@ -146,6 +167,29 @@ const Cart_screen = () => {
             <Text>No Item Found</Text>
           </View>
         )}
+
+        <View style={styles.bottom_view}>
+          <View style={styles.bottom_txt_view}>
+            <Text style={styles.bottom_txt1}>Subtotal</Text>
+            <Text style={styles.bottom_txt2}>${subTotal}</Text>
+          </View>
+          <View style={styles.bottom_txt_view}>
+            <Text style={styles.bottom_txt1}>Delivery</Text>
+            <Text style={styles.bottom_txt2}>${Delivery}</Text>
+          </View>
+          <View style={styles.bottom_txt_view}>
+            <Text style={styles.bottom_txt1}>Total</Text>
+            <Text style={styles.bottom_txt2}>${Total}</Text>
+          </View>
+          <TouchableOpacity
+            style={[
+              Common_Styles.button_view,
+              { width: "95%", marginVertical: 15 },
+            ]}
+          >
+            <Text style={Common_Styles.button_txt}>Proceed To checkout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       {isLoading ? (
         <ActivityIndicator
@@ -179,6 +223,33 @@ const styles = StyleSheet.create({
     height: 30,
     width: 50,
     // backgroundColor:'red'
+  },
+  bottom_view: {
+    height: 200,
+    width: "95%",
+    backgroundColor: "#F8F9FB",
+    marginVertical: 10,
+    borderRadius: 30,
+    padding: 20,
+    // position:'absolute'
+  },
+  bottom_txt_view: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    marginVertical: 5,
+  },
+  bottom_txt1: {
+    fontWeight: "300",
+    fontSize: 14,
+    color: "#616A7D",
+    lineHeight: 20,
+  },
+  bottom_txt2: {
+    fontWeight: "400",
+    fontSize: 13,
+    color: "#616A7D",
+    lineHeight: 20,
   },
 });
 
