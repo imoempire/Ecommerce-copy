@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
+  Alert,
 } from "react-native";
 import Header from "../Components/Header";
 import Colors from "../Utils/Colors";
@@ -23,14 +24,37 @@ const Cart_screen = () => {
   const [Total, setTotalPrice] = useState(0);
   const [Delivery, setDelivery] = useState(20);
   const [isLoading, setisLoading] = useState(false);
-  
+
   const { cart } = useSelector((state) => state.reducer);
   const dispatch = useDispatch();
 
   const handleIncrase = (item) => {
     dispatch(increaseQuantity(item));
   };
+
+  const showConfirmDialog = (item) => {
+    return Alert.alert(
+      "Reomve Item",
+      "Are you sure have to remove this item?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            dispatch(decreaseQuantity(item));
+          },
+        },
+        {
+          text: "No",
+          onPress: () => {},
+        },
+      ]
+    );
+  };
+
   const handleDecrase = (item) => {
+    if (item.quantity === 1) {
+      return showConfirmDialog();
+    }
     dispatch(decreaseQuantity(item));
   };
 
