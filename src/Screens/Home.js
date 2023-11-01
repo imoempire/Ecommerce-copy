@@ -54,7 +54,15 @@ const Home = () => {
       ...product,
       quantity: 1,
     };
-    dispatch(addToCart(object));
+    let productId = object.id;
+    const isProductInCart = (productId) => {
+      return cart.some((product) => product.id === productId);
+    };
+    if (!isProductInCart(productId)) {
+      dispatch(addToCart(object));
+    } else {
+      alert("Product already added to Your cart");
+    }
   };
 
   const HandleAddWishList = (product) => {
