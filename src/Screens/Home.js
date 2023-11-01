@@ -53,6 +53,7 @@ const Home = () => {
     let object = {
       ...product,
       quantity: 1,
+      inWishlist: true,
     };
     let productId = object.id;
     const isProductInCart = (productId) => {
@@ -66,6 +67,10 @@ const Home = () => {
   };
 
   const HandleAddWishList = (product) => {
+    let object = {
+      ...product,
+      inWishlist: true,
+    };
     dispatch(addWishlist(product));
   };
 
@@ -120,7 +125,7 @@ const Home = () => {
                 padding: 10,
               }}
             >
-              <TouchableOpacity onPress={() => HandleAddWishList(item)}>
+              <TouchableOpacity style={{width: 25}} onPress={() => HandleAddWishList(item)}>
                 {isFav ? (
                   <AntDesign name="heart" size={20} color={"red"} />
                 ) : (

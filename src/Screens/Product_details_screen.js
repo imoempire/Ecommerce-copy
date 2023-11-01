@@ -17,6 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { addToCart, removeFromCart } from "../redux/action";
 import { useDispatch, useSelector } from "react-redux";
+import { addWishlist } from "../redux/reducer";
 // create a component
 const Product_details_screen = ({ route }) => {
   const { productData } = route.params;
@@ -25,9 +26,10 @@ const Product_details_screen = ({ route }) => {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { wishlist, product, cart } = useSelector((state) => state.reducer);
 
-  console.log('product data',productData)
-  const [isFavourite, setisFavourite] = useState(true);
+  console.log("product data", productData?.inWishlist);
+  const [isFavourite, setisFavourite] = useState(false);
   const [imageSlider, setimageSlider] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [isAdded, setIAdded] = useState(false);
@@ -50,10 +52,7 @@ const Product_details_screen = ({ route }) => {
   };
 
   const item = productData;
-  const cartItem = useSelector((state) => state.reducer);
-
   const HandleAddCart = () => {
-    
     dispatch(addToCart(item));
   };
 
@@ -61,16 +60,25 @@ const Product_details_screen = ({ route }) => {
     // console.warn(item)
     dispatch(removeFromCart(item.title)); // we can use id to remove bulk data
   };
+
+  const HandleAddWishList = () => {
+    let object = {
+      ...productData,
+      inWishlist: true,
+    };
+    dispatch(addWishlist(object));
+    setisFavourite(!isFavourite);
+  };
+
   useEffect(() => {
-    if (cartItem && cartItem.length) {
-      cartItem.forEach((element) => {
-        // console.warn(element)
-        if (element.title === item.title) {
-          setIAdded(true);
-        }
-      });
+    if (productData?.inWishlist) {
+      console.log(isFavourite);
+      setisFavourite(productData?.inWishlist);
+    } else {
+      console.log(isFavourite, "is not");
+      setisFavourite(false);
     }
-  }, [cartItem]);
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#FFFFFF", height: "100%" }}>
@@ -122,7 +130,7 @@ const Product_details_screen = ({ route }) => {
               }}
             >
               <TouchableOpacity
-                // onPress={() => Add_remove_BrandFav(isFavourite)}
+                onPress={() => HandleAddWishList()}
                 style={{
                   height: 40,
                   width: 40,
